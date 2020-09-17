@@ -31,13 +31,22 @@ function createLine(element) {
 
     btnAdd.innerText = "+";
     btnAdd.value = element.name;
+    btnAdd.addEventListener("click", addToWishList, false);
+    console.log(btnAdd);
 
     li.appendChild(txtNode);
     li.appendChild(btnAdd);
+    
 
     htmlProductList.appendChild(li);
 
 }
+
+function addToWishList(name){
+    console.log(name.srcElement.value);
+}
+
+
 
 
 
