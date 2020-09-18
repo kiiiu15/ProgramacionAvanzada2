@@ -25,46 +25,61 @@ firstP.innerHTML = text;
 const tbody = document.getElementsByTagName("tbody")[0];
 
 
-function insertRow(){
+function insertRow() {
     let tr = createRow();
     tbody.appendChild(tr);
 }
 
 
-function deleteRow(){
+function deleteRow() {
     const trs = [...document.getElementsByTagName("tr")];
-    if (trs.length <= 1 ){
+    if (trs.length <= 1) {
         alert("No rowws to remove");
-    }else{
+    } else {
         const last = trs.pop();
-        tbody.removeChild(last);  
+        tbody.removeChild(last);
     }
-     
+
 }
 
 
-function createRow(){
-    let  rowsNumber = getRowsInTable();
+function createRow() {
+    let rowsNumber = getRowsInTable();
 
     let tr = document.createElement("tr");
     let td = document.createElement("td");
     let td2 = document.createElement("td");
-    
-    
+
+
     td.innerHTML = "Line: "
     td2.innerHTML = rowsNumber;
-    
-    
+
+
     tr.appendChild(td);
     tr.appendChild(td2);
-    
+
     return tr;
 
 }
 
 
 
-function getRowsInTable(){
+function getRowsInTable() {
     let rows = document.getElementsByTagName("tr");
     return rows.length;
+}
+
+
+/*
+Deberá resaltar (agregar CSS) todos los elementos span que contengan la clase
+myClass cuando se haga click en el botón “Highlight words”.
+ */
+
+
+function highlight() {
+    const spans = [...document.getElementsByClassName("myClass")];
+    spans.forEach(element => {
+        element.classList.add("highligth");
+    });
+
 }
