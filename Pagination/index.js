@@ -1,15 +1,19 @@
-console.log("Hello world!");
+//console.log("Hello world!");
+
+
+window.onload = paginate;
+
 const API_URL = "https://utn-avanzanda2-tp5.herokuapp.com";
+
 const tbody = document.querySelector('#myTbody');
-const tableHead = [
-    "userId",
-    "firstName",
-    "lastName",
-    "email",
-    "gender",
-    "lastConnectedAddress"
-];
-tbody.innerHTML = "";
+const tableHead = ["userId", "firstName", "lastName", "email", "gender", "lastConnectedAddress"];
+const paginationButtonClasses = ["btn", "btn-dark"];
+const selectPageSize = document.getElementById("pageSize");
+
+
+selectPageSize.addEventListener("change", paginate, false);
+
+
 
 function prepareRequest(url) {
     const req = new XMLHttpRequest();
@@ -18,7 +22,7 @@ function prepareRequest(url) {
     return req;
 }
 
-function retrieveData(url = API_URL + "/api/User") {
+function MakeRequest(url = API_URL + "/api/User/1/10") {
     return new Promise((resolve, reject) => {
 
         const req = prepareRequest(url);
@@ -43,9 +47,10 @@ function retrieveData(url = API_URL + "/api/User") {
 
 
 function treatment(data) {
+    tbody.innerHTML = "";
     data.forEach(element => {
-       let row = createLine(element);
-       tbody.appendChild(row);
+        let row = createLine(element);
+        tbody.appendChild(row);
     });
 }
 
@@ -61,11 +66,62 @@ function createLine(element) {
 
 }
 
-function refreshTable() {
-    retrieveData()
-        .then(treatment)
-        .catch(error => console.log(error));
+
+
+
+async function paginate() {
+    const pageCant = document.getElementById("pageSize").value;
+    try {
+        const total = await getTotal();
+        const pageCount = Math.ceil(total / pageCant);
+        createPaginationButtons(pageCount);
+        loadPage(0);
+
+    } catch (error) {
+        console.log(error);
+    }
+
+
 }
 
 
-refreshTable();
+function getTotal() {
+
+    return MakeRequest(API_URL + "/api/user/total");
+
+}
+
+function createPaginationButtons(cant) {
+
+    const div = document.getElementById("pgBtns");
+    div.innerHTML = "";
+    for (let i = 0; i < cant; i++) {
+        const button = document.createElement("button");
+        button.classList = paginationButtonClasses.join(" ");
+        button.value = i ;
+        button.innerText = i + 1;
+        button.addEventListener("click", showPage, false);
+        div.appendChild(button);
+
+    }
+}
+
+function showPage (event){
+    const page = event.srcElement.value;
+    loadPage(page);
+}
+
+function loadPage(page) {
+   
+    const pageCant = +document.getElementById("pageSize").value;
+    const start = 1 + (pageCant * page);
+    const limit = start + pageCant-1;
+    const url = `/api/User/${start}/${limit}`;
+   
+    MakeRequest(API_URL+url)
+    .then(treatment)
+    .catch(console.log);
+
+}
+
+

@@ -15,19 +15,37 @@
         <table class="table">
             <thead class="thead-dark">
 
-                <tr>
+                <tr class="d-inile-flex align-items-center">
                     <th scope="col">#</th>
                     <th scope="col">First</th>
                     <th scope="col">Last</th>
                     <th scope="col">Element</th>
                     <th scope="col">Gender</th>
                     <th scope="col">Last IP</th>
+                    <th scope="col">
+                                    
+                            <select class="custom-select" id="pageSize">
+                               
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                              <option value="100">100</option>
+                            </select>
+                         
+                          
+                    </th>
                 </tr>
             </thead>
             <tbody id="myTbody">
                
             </tbody>
         </table>
+
+        <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group mr-2 d-flex flex-wrap" role="group" id="pgBtns" >
+              <button type="button" class="btn btn-dark" value="1">1</button>
+            </div>
+        </div>
+
 
     </div>
 
@@ -51,7 +69,7 @@
             crossorigin="anonymous"></script>
 
     </div>
-    <script src="./index.js"></script>
+    <script type="module" src="./index.js"></script>
 </body>
 
 </html>
