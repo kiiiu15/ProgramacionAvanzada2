@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee CRUD</title>
+    <title>Employee CRD</title>
 </head>
 
 <body background="./img/bg-img.jpg">
@@ -33,7 +33,7 @@
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="myTbody">
                 <tr>
                     <th scope="row">1</th>
                     <td>Mark</td>
@@ -55,8 +55,8 @@
                     <td>bla@mdo</td>
                     <td>com.org</td>
                     <td><button class="btn btn-danger">
-                        <svg width="1em" height="1em" viewBox="0 0 16 16"
-                                class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-trash" fill="currentColor"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <path
                                     d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z" />
                                 <path fill-rule="evenodd"
@@ -102,7 +102,7 @@
                             </button>
                         </div>
                         <div class="modal-body p-0">
-                            <form class="p-5  bg-dark  text-light">
+                            <form class="p-5  bg-dark  text-light" onsubmit="preventDefault">
 
                                 <div class="form-row">
                                     <div class="form-group col-md-6">
@@ -123,7 +123,7 @@
                                     </div>
                                     <div class="form-group col-md-6">
                                         <label for="password">Company</label>
-                                        <select class="custom-select" required id="company">
+                                        <select class="custom-select" required id="companyId">
                                             <option disabled value="">Loading...</option>
                                         </select>
 
@@ -132,14 +132,14 @@
 
 
                                 <div class="form-row my-4">
-                                    <button type="submit" id="validator"
+                                    <button type="submit" id="addBtn"
                                         class="btn btn-success btn-lg btn-block ">ADD</button>
                                 </div>
                             </form>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
+                            
                         </div>
                     </div>
                 </div>
