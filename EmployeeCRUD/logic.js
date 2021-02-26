@@ -20,26 +20,7 @@ class="bi bi-trash" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
 </svg>`;
 
 const jsonAtributes = ["firstName", "lastName", "email", "companyId"];
-/*
-{
-    "employeeId": 0,
-    "companyId": 1,
-    "firstName": "Prueba",
-    "lastName": "prueba",
-    "email": "et@gmail.com"
-}
-*/
 
-
-/*{
-
-"employeeId":0,
-"firstName":"Felipe",
-"lastName":"Escribas",
-"email":"admin@admin.com",
-"companyId":"1"
-
-} */
 const btnAdd = document.getElementById("addBtn");
 btnAdd.addEventListener("click", AddEmployee, false);
 
@@ -67,7 +48,7 @@ function prepareRequest(url, method = "GET") {
     req.open(method, url);
     req.responseType = "json";
     req.setRequestHeader("Content-Type", "application/json");
-   // req.setRequestHeader("Access-Control-Allow-Credentials",  "*");
+   req.setRequestHeader("Access-Control-Allow-Credentials",  "*");
     return req;
 }
 
@@ -125,7 +106,7 @@ function addCompaniesToForm(companies) {
     companies.forEach(company => {
         let option = document.createElement("option");
         option.innerText = company.name;
-        option.value = company.companyId;
+        option.value = +company.companyId;
         select.appendChild(option);
     });
 
@@ -139,6 +120,7 @@ async function RefeshTable() {
 
         addCompaniesToForm(companyList);
         const data = mergeData(employeeList, companyList);
+        data.reverse();
 
         treatment(data);
     } catch (error) {
@@ -150,11 +132,16 @@ async function RefeshTable() {
 
 function treatment(data) {
 
+    //const tbody2 = document.createElement("tbody");
 
     data.forEach(element => {
         let row = createLine(element);
         tbody.appendChild(row);
     });
+
+    
+
+    //tbody.innerHTML = tbody2.innerHTML;
 }
 
 function createLine(element) {
@@ -169,6 +156,7 @@ function createLine(element) {
 
     let button = createButton(element.employeeId);
     let td = document.createElement("td");
+    
     td.appendChild(button);
     tr.appendChild(td);
 
@@ -178,7 +166,8 @@ function createLine(element) {
 
 function createButton(id) {
     let button = document.createElement("button");
-    button.innerHTML = buttonIcon;
+    //button.innerHTML = buttonIcon;
+    button.innerText = "X";
     button.classList = "btn btn-danger";
 
     button.addEventListener("click", DeleteEmployee, false);
@@ -190,12 +179,17 @@ function createButton(id) {
 
 function DeleteEmployee(event) {
 
+    console.log(event);
+   
     let id = event.srcElement.value;
-    let url = API_URL + "/api/Employee/" + id;
-    MakeRequest(url, "DELETE")
-        .then(RefeshTable)
-        .catch(console.log);
+    if (id){
+        let url = API_URL + "/api/Employee/" + id;
+        MakeRequest(url, "DELETE")
+            .then(RefeshTable)
+            .catch(console.log);
+    }
 }
+   
 
 function AddEmployee(event) {
     event.preventDefault();
@@ -209,11 +203,16 @@ function AddEmployee(event) {
 function captureData() {
     const json = { employeeId: 0 };
     jsonAtributes.forEach(artibute => {
-        json[artibute] = document.getElementById(artibute).value;
+        const input = document.getElementById(artibute);
+        json[artibute] =  input.value;
+        input.value = ""; 
     });
 
-    //let rta = JSON.stringify(json);
-    let rta = json;
+    $('#exampleModal').modal('hide');
+    
+    json.companyId = +json.companyId;
+    let rta = JSON.stringify(json);
+    
     return rta;
 }
 
